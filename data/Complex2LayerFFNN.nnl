@@ -1,0 +1,108 @@
+{
+    "metadata" :
+        {
+    "author": "Miles Bryant",
+    "date": "24.11.2014",
+    "title": "Simple 2 Layer FeedForward NN",
+    "desc": "A simple 2 layer feedforward network used in Beer's initial orientation experiments."
+        }
+    ,
+    "param_ranges" : [
+        {
+            "id": 0,
+            "desc": "sensory neuron ranges",
+            "tauR": [1, 2],
+            "gainR": [1, 5],
+            "biasR": [-5, 5],
+            "weightsR": [-5,5]
+        },
+        {
+            "id": 1,
+            "desc": "motor neuron ranges",
+            "tauR": [1, 2],
+            "gainR": [1, 1],
+            "biasR": [-5, 5],
+            "weightsR": [-5,5]
+        }
+    ],
+    "layers" : [
+        {
+            "id": 0,
+            "neurons" : [
+                {
+                    "id": 0,
+                    "paramID": 0,
+                    "tau": "g0",
+                    "bias": "g1",
+                    "gain": "g2",
+                    "conns": [5,6],
+                    "weights": ["g3","g4"]
+                },
+                {
+                    "id": 1,
+                    "paramID": 0,
+                    "tau": "g0",
+                    "bias": "g1",
+                    "gain": "g2",
+                    "conns": [5,6],
+                    "weights": ["g5","g6"]
+                },
+                {
+                    "id": 2,
+                    "paramID": 0,
+                    "tau": "g0",
+                    "bias": "g1",
+                    "gain": "g2",
+                    "conns": [5,6],
+                    "weights": ["g7","g7"]
+                },
+                {
+                    "id": 3,
+                    "paramID": 0,
+                    "tau": "g0",
+                    "bias": "g1",
+                    "gain": "g2",
+                    "conns": [5,6],
+                    "weights": ["g6","g5"]
+                },
+                {
+                    "id": 4,
+                    "paramID": 0,
+                    "tau": "g0",
+                    "bias": "g1",
+                    "gain": "g2",
+                    "conns": [5,6],
+                    "weights": ["g4","g3"]
+                }
+            ]
+        },
+        {
+            "id": "1",
+            "neurons" : [
+                {
+                    "id": 5,
+                    "paramID": 1,
+                    "tau": "g8",
+                    "bias": "g9",
+                    "gain": "1.0",
+                    "conns": [5,6],
+                    "weights": ["g10","g11"]
+                },
+                {
+                    "id": 6,
+                    "paramID": 1,
+                    "tau": "g8",
+                    "bias": "g9",
+                    "gain": "1.0",
+                    "conns": [5,6],
+                    "weights": ["g11","g10"]
+                }
+            ]
+        }
+    ],
+    "genomeLength" : 12,
+    
+    "sensorInputs" : [0,1,2,3,4],
+    "motorOutputs": [5,6]    
+    
+}

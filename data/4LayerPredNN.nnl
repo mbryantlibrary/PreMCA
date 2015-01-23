@@ -1,0 +1,208 @@
+{
+    "metadata" :
+        {
+			"author": "Miles Bryant",
+			"date": "22.01.2015",
+			"title": "4 Layer FF Predictive NN",
+			"desc": "A feed forward predictive net"
+        },
+    "param_ranges" : [
+        {
+            "id": 0,
+            "desc": "circuit ranges",
+            "tauR": [1, 2],
+            "gainR": [1, 1],
+            "biasR": [-1, 5],
+            "weightsR": [-5,5]
+        },
+        {
+            "id": 1,
+            "desc": "sensory neuron ranges",
+            "tauR": [1, 2],
+            "gainR": [1, 1],
+            "biasR": [-1, 3],
+            "weightsR": [-5,5]
+        }
+    ],
+    "layers" : [
+        {
+            "id": 0,
+			"desc": "motor layer",
+            "neurons": [
+                {
+                    "id": 0,
+                    "paramID": 0,
+                    "tau": "g0",
+                    "bias": "g1",
+                    "gain": "g2",
+                    "conns": [2,3,4,5,6],
+                    "weights": ["g3","g4","g5","g6","g7"]
+                },
+                {
+                    "id": 1,
+                    "paramID": 0,
+                    "tau": "g0",
+                    "bias": "g1",
+                    "gain": "g2",
+                    "conns": [2,3,4,5,6],
+                    "weights": ["g7","g6","g5","g4","g3"]
+                }
+            ]
+        },
+        {
+            "id": 1,
+			"desc": "predictive layer",
+            "neurons" : [
+                {
+                    "id": 2,
+                    "paramID": 0,
+                    "tau": "1",
+                    "bias": "1",
+                    "gain": "1",
+                    "conns": [],
+                    "weights": []
+                },
+                {
+                    "id": 3,
+                    "paramID": 0,
+                    "tau": "1",
+                    "bias": "1",
+                    "gain": "1",
+                    "conns": [],
+                    "weights": []
+                },
+                {
+                    "id": 4,
+                    "paramID": 0,
+                    "tau": "1",
+                    "bias": "1",
+                    "gain": "1",
+                    "conns": [],
+                    "weights": []
+                },
+                {
+                    "id": 5,
+                    "paramID": 0,
+                    "tau": "1",
+                    "bias": "1",
+                    "gain": "1",
+                    "conns": [],
+                    "weights": []
+                },
+                {
+                    "id": 6,
+                    "paramID": 0,
+                    "tau": "1",
+                    "bias": "1",
+                    "gain": "1",
+                    "conns": [],
+                    "weights": []
+                }
+            ]
+        },
+        {
+            "id": 2,
+            "neurons" : [
+                {
+                    "id": 7,
+                    "paramID": 0,
+                    "tau": "g24",
+                    "bias": "g25",
+                    "gain": "g26",
+                    "conns": [2,3,4,5,6],
+                    "weights": ["g11","g12","g13","g14","g15"]
+                },
+                {
+                    "id": 8,
+                    "paramID": 0,
+                    "tau": "g24",
+                    "bias": "g25",
+                    "gain": "g26",
+                    "conns": [2,3,4,5,6],
+                    "weights": ["g16","g17","g18","g19","g20"]
+                },
+                {
+                    "id": 9,
+                    "paramID": 0,
+                    "tau": "g24",
+                    "bias": "g25",
+                    "gain": "g26",
+                    "conns": [2,3,4,5,6],
+                    "weights": ["g21","g22","g23","g22","g21"]
+                },
+                {
+                    "id": 10,
+                    "paramID": 0,
+                    "tau": "g24",
+                    "bias": "g25",
+                    "gain": "g26",
+                    "conns": [2,3,4,5,6],
+                    "weights": ["g20","g19","g18","g17","g16"]
+                },
+                {
+                    "id": 11,
+                    "paramID": 0,
+                    "tau": "g24",
+                    "bias": "g25",
+                    "gain": "g26",
+                    "conns": [2,3,4,5,6],
+                    "weights": ["g15","g14","g13","g12","g11"]
+                }
+            ]
+        },
+        {
+            "id": 3,
+            "neurons" : [
+                {
+                    "id": 12,
+                    "paramID": 1,
+                    "tau": "g27",
+                    "bias": "g28",
+                    "gain": "g29",
+                    "conns": [],
+                    "weights": []
+                },
+                {
+                    "id": 13,
+                    "paramID": 1,
+                    "tau": "g27",
+                    "bias": "g28",
+                    "gain": "g29",
+                    "conns": [],
+                    "weights": []
+                },
+                {
+                    "id": 14,
+                    "paramID": 1,
+                    "tau": "g27",
+                    "bias": "g28",
+                    "gain": "g29",
+                    "conns": [],
+                    "weights": []
+                },
+                {
+                    "id": 15,
+                    "paramID": 1,
+                    "tau": "g27",
+                    "bias": "g28",
+                    "gain": "g29",
+                    "conns": [],
+                    "weights": []
+                },
+                {
+                    "id": 16,
+                    "paramID": 1,
+                    "tau": "g27",
+                    "bias": "g28",
+                    "gain": "g29",
+                    "conns": [],
+                    "weights": []
+                }
+            ]
+        }
+    ],
+    "genomeLength" : 30,
+    "sensorInputs" : [12,13,14,15,16],
+    "motorOutputs": [0,1]
+    
+}

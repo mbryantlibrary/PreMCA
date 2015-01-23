@@ -1,0 +1,61 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package org.mb459.easy.premca.genesis;
+
+import java.util.ArrayList;
+
+/**
+ *
+ * @author Miles
+ */
+public class Stats {
+        public int n;
+        public AgentIndividual bestInd;
+        public float maxFit,minFit,avgFit,varFit;
+        public ArrayList<Float> fitnesses;
+        public ArrayList<String> genotypes;
+
+        public Stats(int n, Population pop) {
+            this.n = n; maxFit = 0.0f; minFit = 0.0f; avgFit = 0.0f; varFit = 0.0f;
+            float total = 0;
+            float raw;
+            int bestIndex = 0;
+            minFit = 1E10f;
+            maxFit = -1E10f;
+            for(int i = 0; i< pop.size(); i++) {
+                raw = pop.population.get(i).rawFitness();
+                if(raw > maxFit) {
+                    maxFit = raw;
+                    bestIndex = i;
+                } else if(raw < minFit) {
+                    minFit = raw;
+                }
+                total += raw;
+            }
+            avgFit = total / pop.size();
+            if(avgFit < minFit)
+                avgFit = minFit;
+            else if(avgFit > maxFit)
+                avgFit = maxFit;
+
+            if(pop.size() > 1) {
+                total = 0.0f;
+                for(int i = 1; i < pop.size(); i++) {
+                    float d = pop.population.get(i).rawFitness() - avgFit;
+                    total += d * d;
+                }
+                varFit = total / (pop.size() - 1);
+            } else {varFit = 0.0f;}
+
+            bestInd = pop.population.get(bestIndex);
+        }
+        
+        @Override
+        public String toString() {
+            return String.format("%4d\t%.6f\t\t%.6f\t\t%.6f\t\t%.6f", n,maxFit,minFit,avgFit,varFit);
+        }
+    
+}

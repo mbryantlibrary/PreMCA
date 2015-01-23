@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+
+
+<root>
+    <author>Miles Bryant</author>
+    <date>24.11.2014</date>
+    <title>Simple 2 Layer FeedForward</title>
+    <description>A simple 2 layer feedforward network used in Beer's initial orientation experiments.</description>
+    
+    <nSensors>5</nSensors>
+    
+    
+</root>
