@@ -17,8 +17,8 @@ import org.mb459.easy.premca.ui.expanalysis.PopulationTableModel;
  */
 public class AgentIndividual implements Comparable<AgentIndividual> {
     
-    public static AgentIndividual fromDataIndividual(PopulationTableModel.DataIndividual ind, ExpParam params) {
-        AgentIndividual agInd = new AgentIndividual(null, params);
+    public static AgentIndividual fromDataIndividual(PopulationTableModel.DataIndividual ind, ExpParam params, CTRNNLayout layout) {
+        AgentIndividual agInd = new AgentIndividual(layout, params);
         return agInd;
     }
     

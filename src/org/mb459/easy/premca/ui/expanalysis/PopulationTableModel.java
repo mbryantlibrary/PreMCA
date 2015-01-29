@@ -13,12 +13,29 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.table.AbstractTableModel;
+import org.mb459.easy.premca.sim.ctrnn.CTRNNLayout;
 
 /**
  *
  * @author Miles
  */
 public class PopulationTableModel extends AbstractTableModel {
+
+    public PopulationTableModel(CTRNNLayout layout) {
+        this.layout = layout;
+    }
+    
+    private final CTRNNLayout layout ;
+
+    /**
+     * Get the value of layout
+     *
+     * @return the value of layout
+     */
+    public CTRNNLayout getLayout() {
+        return layout;
+    }
+
     
     public class DataIndividual {
         public int ID;
@@ -28,6 +45,7 @@ public class PopulationTableModel extends AbstractTableModel {
 
     private ArrayList<DataIndividual> data = new ArrayList<>();
     private int nGenes = 0;
+    
     
     public DataIndividual getInd(int row) {
         return data.get(row);

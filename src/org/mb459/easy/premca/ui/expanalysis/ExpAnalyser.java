@@ -16,11 +16,13 @@ public class ExpAnalyser extends javax.swing.JFrame {
      */
     public ExpAnalyser() {
         initComponents();
+        PopulationPane pane = new PopulationPane();
+        
     }
     
     private void viewTrial(PopulationTableModel.DataIndividual ind) {
-        trialPanel1.loadIndividual(ind);
-        tab1.setSelectedComponent(trialPanel1);
+        //trialPanel1.loadIndividual(ind);
+        //tab1.setSelectedComponent(trialPanel1);
     }
 
     /**
@@ -34,9 +36,7 @@ public class ExpAnalyser extends javax.swing.JFrame {
 
         tab1 = new javax.swing.JTabbedPane();
         jPanel1 = new javax.swing.JPanel();
-        populationPane1 = new org.mb459.easy.premca.ui.expanalysis.PopulationPane();
         btnTrialView = new javax.swing.JButton();
-        trialPanel1 = new org.mb459.easy.premca.ui.expanalysis.TrialPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -55,19 +55,16 @@ public class ExpAnalyser extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(btnTrialView)
                 .addContainerGap(670, Short.MAX_VALUE))
-            .addComponent(populationPane1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(btnTrialView)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(populationPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 563, Short.MAX_VALUE))
+                .addContainerGap(568, Short.MAX_VALUE))
         );
 
         tab1.addTab("Population", jPanel1);
-        tab1.addTab("Trial view", trialPanel1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -90,7 +87,7 @@ public class ExpAnalyser extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnTrialViewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTrialViewActionPerformed
-        viewTrial(populationPane1.getSelectedInd());
+        //viewTrial(populationPane1.getSelectedInd());
     }//GEN-LAST:event_btnTrialViewActionPerformed
 
     /**
@@ -131,8 +128,6 @@ public class ExpAnalyser extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnTrialView;
     private javax.swing.JPanel jPanel1;
-    private org.mb459.easy.premca.ui.expanalysis.PopulationPane populationPane1;
     private javax.swing.JTabbedPane tab1;
-    private org.mb459.easy.premca.ui.expanalysis.TrialPanel trialPanel1;
     // End of variables declaration//GEN-END:variables
 }

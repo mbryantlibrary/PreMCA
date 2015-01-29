@@ -51,6 +51,24 @@ public class Agent extends Circle{
             sensors.add(new Sensor(sensorBase,left - (i/((n - 1.0f) * (1.0f / eye_width))),sensorLength));
     }
     
+    public ArrayList<Float> getCurrentNNTimestepData() {
+        ArrayList<Float> data = new ArrayList<Float>();
+        for(int i = 0; i < nn.outputs.length; i++) {
+            data.add(nn.states[i]);
+            data.add(nn.outputs[i]);
+        }
+        return data;
+    }
+    
+    public ArrayList<String> getTimestepDataTitles() {
+        ArrayList<String> titles = new ArrayList<String>();
+        for(int i = 0; i < nn.outputs.length; i++) {
+            titles.add("states_nn" + i);
+            titles.add("output_nn" + i);
+        }
+        return titles;
+    }
+    
     /**
      * integrates one time step and moves agent according to motor outputs
      */

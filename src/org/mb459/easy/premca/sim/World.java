@@ -5,6 +5,7 @@
  */
 package org.mb459.easy.premca.sim;
 
+import com.google.common.base.Joiner;
 import org.mb459.easy.premca.genesis.AgentGenotype;
 import org.mb459.easy.premca.exp.ExpParam;
 import java.awt.Dimension;
@@ -12,12 +13,15 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
+import java.util.ArrayList;
+import java.util.logging.Logger;
 
 /**
  * Represents and integrates the world of a single trial.
  * @author Miles
  */
 public class World {
+    private static final Logger LOG = Logger.getLogger(World.class.getName());
     
     private Agent agent; 
     private Circle circle;
@@ -25,6 +29,54 @@ public class World {
     private float circleDX = 0; //circle horizontal velocity
     private final float circleDY = 3; //circle vertical velocity
     private final int BOUNDOFFSET = 150;
+    
+    private boolean loggingEnabled = false;
+    private ArrayList<ArrayList<Float>> loggingData;
+
+    /**
+     * Get the value of loggingEnabled
+     *
+     * @return the value of loggingEnabled
+     */
+    public boolean isLoggingEnabled() {
+        return loggingEnabled;
+    }
+
+    /**
+     * Set the value of loggingEnabled
+     *
+     * @param loggingEnabled new value of loggingEnabled
+     */
+    public void setLoggingEnabled(boolean loggingEnabled) {
+        if(loggingEnabled) {
+            loggingData = new ArrayList<>();
+        } else {
+            loggingData = null;
+        }
+        this.loggingEnabled = loggingEnabled;
+    }
+
+    public String getLoggingData() {
+        if(!isLoggingEnabled() | loggingData == null) {
+            LOG.info("Logging data requested but logging not available/logging data is null; returning empty string");
+            return "";
+        } 
+        StringBuilder builder = new StringBuilder();
+        Joiner csvJoiner = Joiner.on(",");
+        ArrayList<String> titles = new ArrayList<>();
+        titles.add("Circle_X");titles.add("Circle_Y");titles.add("Agent_X");
+        titles.addAll(agent.getTimestepDataTitles());
+        
+        builder.append(csvJoiner.join(titles));
+        builder.append("\n");
+        
+        for(ArrayList<Float> dataRow : loggingData) {
+            builder.append(csvJoiner.join(dataRow));
+            builder.append("\n");
+        }
+        
+        return builder.toString();
+    }
     
     /**
      * Initialises the world with actual screen dimensions. Agent and circle are null.
@@ -108,6 +160,14 @@ public class World {
         circle.move(circleDX,circleDY);
         agent.doCollisions(circle);
         agent.step();
+        if(isLoggingEnabled() & loggingData != null) {
+            ArrayList<Float> logRow = new ArrayList<>();
+            logRow.add(circle.getCenterX());
+            logRow.add(circle.getCenterY());
+            logRow.add(agent.getCenterX());
+            logRow.addAll(agent.getCurrentNNTimestepData());
+            loggingData.add(logRow);
+        }
     }
     
     public float getPredictionError() {

@@ -28,6 +28,7 @@ public class AgentGenotype implements Serializable{
         for(int i = 0; i < ind.genes.size(); i++) {
             geno.genes[i] = ind.genes.get(i);
         }
+        geno.layout = layout;
         return geno;
     }
 

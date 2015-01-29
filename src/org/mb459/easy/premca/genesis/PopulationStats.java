@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.mb459.easy.premca.exp.ExperimentController;
+import org.mb459.easy.premca.util.FileSaver;
 
 /**
  *
@@ -43,22 +44,14 @@ public class PopulationStats {
     }
     
     public void saveToCSV(String filename) {
-        try {
-            Files.createDirectories(Paths.get(filename).getParent());
-            File statsFile = new File(filename);
-            try (FileWriter out = new FileWriter(statsFile)) {
-                out.append("Generation,Maximum Fitness,Average Fitness,Variance" + "\n");
-                for(Stats stat : statses) {
-                    out.append(stat.n + ",");
-                    out.append(stat.maxFit + ",");
-                    out.append(stat.avgFit + ",");
-                    out.append(stat.varFit + "\n");
+        StringBuilder out = new StringBuilder();
+        for(Stats stat : statses) {
+                    out.append(stat.n).append(",");
+                    out.append(stat.maxFit).append(",");
+                    out.append(stat.avgFit).append(",");
+                    out.append(stat.varFit).append("\n");
                 }
-                out.flush();
-            }
-        } catch (IOException ex) {
-            Logger.getLogger(ExperimentController.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        FileSaver.saveStringToFile(out.toString(), filename);
     }
     
 }

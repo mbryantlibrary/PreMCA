@@ -17,13 +17,14 @@ import org.mb459.easy.premca.genesis.AgentGenotype;
 import org.mb459.easy.premca.genesis.MicrobialGA;
 import org.mb459.easy.premca.genesis.Stats;
 import org.mb459.easy.premca.sim.ctrnn.CTRNNLayout;
+import org.mb459.easy.premca.util.FileSaver;
 
 /**
  *
  * @author Miles
  */
-public class Experiment extends Thread{
-    
+public class Experiment extends Thread {
+
     ExpParam param;
     CTRNNLayout layout;
     public MicrobialGA GA;
@@ -32,130 +33,130 @@ public class Experiment extends Thread{
     public volatile boolean RESET = false;
     public volatile boolean FINISHED = false;
     private static final Logger LOG = Logger.getLogger(Experiment.class.getName());
-    
-    
+
     public void start(ExpParam param, CTRNNLayout layout) {
-        this.param = param; this.layout = layout;
+        this.param = param;
+        this.layout = layout;
         GA = new MicrobialGA(param, layout);
     }
-    
+
     @Override
     public void run() {
         LOG.log(Level.INFO, "Starting experiment in thread {0}", Thread.currentThread().getName());
         GA.initPop();
-        while(!RESET & !FINISHED) {
-            if(GA != null) {
-                while(!PAUSED) {
+        while (!RESET & !FINISHED) {
+            if (GA != null) {
+                while (!PAUSED) {
                     Stats stats = GA.getLastStats();
-                    if(stats != null) {
-                        if((boolean)param.get("UPDATE_SUMMARY") & stats.n % (int)param.get("UPDATE_SUMMARY_FREQ") == 0) {
-                            if(listener != null)
+                    if (stats != null) {
+                        if ((boolean) param.get("UPDATE_SUMMARY") & stats.n % (int) param.get("UPDATE_SUMMARY_FREQ") == 0) {
+                            if (listener != null) {
                                 listener.GAupdateSummary(stats);
+                            }
                         }
                     }
                     GA.step();
-                    if(Thread.currentThread().isInterrupted()) {
+                    if (Thread.currentThread().isInterrupted()) {
                         LOG.warning("Thread " + Thread.currentThread().getName() + " was interrupted");
                         reset();
                         break;
                     }
-                    if(isFinished()) {
+                    if (isFinished()) {
                         FINISHED = true;
                         LOG.log(Level.INFO, "Finishing experiment in thread {0}", Thread.currentThread().getName());
-                        if(listener != null)
+                        if (listener != null) {
                             listener.GAFinished();
+                        }
                         break;
                     }
                 }
             }
         }
     }
-    
+
     public AgentGenotype getBestGenotype() {
         return GA.getLastStats().bestInd.getGenotype();
     }
-    
+
     GAListener listener;
-    
+
     public void setListener(GAListener listener) {
         this.listener = listener;
     }
-    
+
     public void pause() {
         PAUSED = !PAUSED;
     }
+
     public void setPaused(boolean paused) {
         this.PAUSED = paused;
     }
-    
+
     public void reset() {
         RESET = true;
-        param = null; layout = null; GA = null; GAthread = null;
+        param = null;
+        layout = null;
+        GA = null;
+        GAthread = null;
     }
+
     public boolean isFinished() {
-        if((boolean)param.get("GA_RUNTOMAXGEN")) {
-                    if(GA.curGen >= (int)param.get("GA_MAXGEN")) {
-                        return true;
-                    }
-        } else if(GA.getLastStats().maxFit >= (float)param.get("GA_MAXFIT")) {
+        if ((boolean) param.get("GA_RUNTOMAXGEN")) {
+            if (GA.curGen >= (int) param.get("GA_MAXGEN")) {
+                return true;
+            }
+        } else if (GA.getLastStats().maxFit >= (float) param.get("GA_MAXFIT")) {
             return true;
         }
         return false;
     }
-    
+
     public void infoToFile(String filename) {
-        try {
-            Files.createDirectories(Paths.get(filename).getParent());
-            File infoFile = new File(filename);
-            try (FileWriter out = new FileWriter(infoFile)) {
-                out.append("Experiment info\n");
-                out.append("Layout filename: " + layout.filename);
-                out.append("Params:\n");
-                out.append(param.toString());
-                
-                out.flush();
-            } catch (IOException ex) {
-            Logger.getLogger(ExperimentController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        } catch (IOException ex) {
-            Logger.getLogger(ExperimentController.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        StringBuilder output = new StringBuilder();
+        output.append("Experiment info\n");
+        output.append("Layout filename: " + layout.filename);
+        output.append("Params:\n");
+        output.append(param.toString());
+        FileSaver.saveStringToFile(output.toString(), filename);
     }
-    
+
     public String getSummary() {
         Stats laststats = GA.getLastStats();
-        if(laststats == null)
+        if (laststats == null) {
             return "";
+        }
         StringBuilder report = new StringBuilder("---------------------------------------------------\n");
         report.append("SUMMARY\n");
         report.append("---------------------------------------------------\n");
-        report.append(String.format("Max fitness  : %f\n",laststats.maxFit));
-        report.append(String.format("Min fitness  : %f\n",laststats.minFit));
-        report.append(String.format("Avg fitness  : %f\n",laststats.avgFit));
-        report.append(String.format("Variance     : %f\n",laststats.varFit));
-        report.append(String.format("Best genotype: %s\n",laststats.bestInd.getGenotype().toString()));
+        report.append(String.format("Max fitness  : %f\n", laststats.maxFit));
+        report.append(String.format("Min fitness  : %f\n", laststats.minFit));
+        report.append(String.format("Avg fitness  : %f\n", laststats.avgFit));
+        report.append(String.format("Variance     : %f\n", laststats.varFit));
+        report.append(String.format("Best genotype: %s\n", laststats.bestInd.getGenotype().toString()));
         return report.toString();
     }
-    
+
     public String getGenerationsCSV() {
         Stats laststats = GA.getLastStats();
-        if(laststats == null)
+        if (laststats == null) {
             return "";
+        }
         StringBuilder report = new StringBuilder("---------------------------------------------------\n");
         report.append("GENERATIONS\n");
         report.append("---------------------------------------------------\n");
         report.append("N\tMaxFitness\tMinFitness\tAverageFitness\tVariance\n");
-        for(Stats stats : GA.popStats.getAllStats()) {
+        for (Stats stats : GA.popStats.getAllStats()) {
             report.append(stats.toString());
             report.append("\n");
         }
         return report.toString();
     }
-    
+
     public String getPopulationCSV() {
         Stats laststats = GA.getLastStats();
-        if(laststats == null)
+        if (laststats == null) {
             return "";
+        }
         StringBuilder report = new StringBuilder("---------------------------------------------------\n");
         report.append("\n");
         report.append("---------------------------------------------------\n");
@@ -164,11 +165,12 @@ public class Experiment extends Thread{
         report.append(GA.pop.toString());
         return report.toString();
     }
-    
+
     public String generateReport() {
         Stats laststats = GA.getLastStats();
-        if(laststats == null)
+        if (laststats == null) {
             return "";
+        }
         StringBuilder report = new StringBuilder();
         report.append(getSummary());
         report.append("\n");
@@ -187,7 +189,5 @@ public class Experiment extends Thread{
         report.append(param.toString());
         return report.toString();
     }
-    
-    
-    
+
 }

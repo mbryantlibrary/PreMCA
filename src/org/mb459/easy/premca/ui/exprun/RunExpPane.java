@@ -16,6 +16,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 import org.mb459.easy.premca.exp.ExperimentController;
+import org.mb459.easy.premca.util.FileSaver;
 
 /**
  *
@@ -242,14 +243,7 @@ public class RunExpPane extends javax.swing.JPanel implements TextOutput {
 
     private void btnSaveOutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveOutActionPerformed
         if(outputWritten) {
-            try {
-                new File(lblDir.getText()).mkdirs();
-                File file = new File(lblDir.getText() + "explog.txt");
-                PrintStream out = new PrintStream(file);
-                out.print(txtOut.getText());
-            } catch (FileNotFoundException ex) {
-                Logger.getLogger(RunExpPane.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            FileSaver.saveStringToFile(txtOut.getText(), lblDir.getText() + "explog.txt"); 
         }
     }//GEN-LAST:event_btnSaveOutActionPerformed
 

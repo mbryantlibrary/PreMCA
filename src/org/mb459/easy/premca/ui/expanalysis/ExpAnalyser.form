@@ -62,7 +62,6 @@
                       <Component id="btnTrialView" min="-2" max="-2" attributes="0"/>
                       <EmptySpace pref="670" max="32767" attributes="0"/>
                   </Group>
-                  <Component id="populationPane1" alignment="0" max="32767" attributes="0"/>
               </Group>
             </DimensionLayout>
             <DimensionLayout dim="1">
@@ -70,15 +69,12 @@
                   <Group type="102" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="btnTrialView" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="populationPane1" pref="563" max="32767" attributes="0"/>
+                      <EmptySpace pref="568" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
           </Layout>
           <SubComponents>
-            <Component class="org.mb459.easy.premca.ui.expanalysis.PopulationPane" name="populationPane1">
-            </Component>
             <Component class="javax.swing.JButton" name="btnTrialView">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Trial view of selected"/>
@@ -89,15 +85,6 @@
             </Component>
           </SubComponents>
         </Container>
-        <Component class="org.mb459.easy.premca.ui.expanalysis.TrialPanel" name="trialPanel1">
-          <Constraints>
-            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
-              <JTabbedPaneConstraints tabName="Trial view">
-                <Property name="tabTitle" type="java.lang.String" value="Trial view"/>
-              </JTabbedPaneConstraints>
-            </Constraint>
-          </Constraints>
-        </Component>
       </SubComponents>
     </Container>
   </SubComponents>

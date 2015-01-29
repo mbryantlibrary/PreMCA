@@ -27,7 +27,7 @@ public class Population {
 
     ArrayList<Float> getFitnesses() {
         ArrayList<Float> ar = new ArrayList<>();
-        for(AgentIndividual ind : population) {
+        for (AgentIndividual ind : population) {
             ar.add(ind.rawFitness());
         }
         return ar;
@@ -35,31 +35,32 @@ public class Population {
 
     ArrayList<String> getGenotypes() {
         ArrayList<String> ar = new ArrayList<>();
-        for(AgentIndividual ind : population) {
+        for (AgentIndividual ind : population) {
             ar.add(ind.genotype.toString());
         }
         return ar;
     }
-    
-    
+
     public ArrayList<AgentIndividual> population = new ArrayList<>();
-    protected float p_mutation; protected float pCross;
+    protected float p_mutation;
+    protected float pCross;
     protected Random rand = new Random();
     ExpParam param;
-    
-    Population() {     }
-    
-    Population(int n_pop, float p_mutation, float pCross, ExpParam param,CTRNNLayout layout) {
+
+    Population() {
+    }
+
+    Population(int n_pop, float p_mutation, float pCross, ExpParam param, CTRNNLayout layout) {
         population = new ArrayList<>(n_pop);
-        for(int i = 0; i < n_pop;i++) {
-            population.add(new GMIndividual(layout,param));
+        for (int i = 0; i < n_pop; i++) {
+            population.add(new GMIndividual(layout, param));
         }
-        
-        this.p_mutation = p_mutation; this.pCross = pCross;
+
+        this.p_mutation = p_mutation;
+        this.pCross = pCross;
         this.param = param;
     }
-    
-    
+
     public int getRandIndex() {
         return rand.nextInt(size());
     }
@@ -67,11 +68,13 @@ public class Population {
     public int size() {
         return population.size();
     }
-    public boolean isABetterThanB(int a, int b)  {
+
+    public boolean isABetterThanB(int a, int b) {
         float aFit = population.get(a).rawFitness();
         float bFit = population.get(b).rawFitness();
-        if(aFit == bFit)
+        if (aFit == bFit) {
             return false;
+        }
         return aFit > bFit;
     }
 
@@ -79,55 +82,46 @@ public class Population {
         population.get(a).crossover(pCross, population.get(b));
     }
 
-    public void mutate(int a)  {
+    public void mutate(int a) {
         population.get(a).mutate(p_mutation);
     }
-    
+
     public void saveToCSV(String filename) {
-        try {
-            Files.createDirectories(Paths.get(filename).getParent());
-            File statsFile = new File(filename);
-            try (FileWriter out = new FileWriter(statsFile)) {
-                out.append("ID,Fitness,");
-                int nGenes = population.get(0).genotype.len;
-                
-                for(int i = 0; i < nGenes; i++) {
-                    out.append("gene " + i);
-                    if(i < (nGenes - 1)) {
-                        out.append(",");
-                    }
-                }
-                out.append("\n");
-                int i = 0;
-                for(AgentIndividual ind : population) {
-                    out.append(i + ",");
-                    out.append(ind.rawFitness() + ",");
-                    for(int j = 0; j < nGenes; j++) {
-                        out.append(String.valueOf(ind.genotype.genes[j]));
-                        if(j < (nGenes - 1))
-                            out.append(",");
-                    }
-                    out.append("\n");
-                    i++;
-                }                
-                                
-                out.flush();
+        StringBuilder out = new StringBuilder();
+        out.append("ID,Fitness,");
+        int nGenes = population.get(0).genotype.len;
+
+        for (int i = 0; i < nGenes; i++) {
+            out.append("gene " + i);
+            if (i < (nGenes - 1)) {
+                out.append(",");
             }
-        } catch (IOException ex) {
-            Logger.getLogger(ExperimentController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        out.append("\n");
+        int i = 0;
+        for (AgentIndividual ind : population) {
+            out.append(i + ",");
+            out.append(ind.rawFitness() + ",");
+            for (int j = 0; j < nGenes; j++) {
+                out.append(String.valueOf(ind.genotype.genes[j]));
+                if (j < (nGenes - 1)) {
+                    out.append(",");
+                }
+            }
+            out.append("\n");
+            i++;
         }
     }
-    
+
     @Override
     public String toString() {
         ArrayList<AgentIndividual> sortedPop = (ArrayList<AgentIndividual>) population.clone();
         Collections.sort(sortedPop);
         StringBuilder r = new StringBuilder("Fitness\tGenotype\n");
-        for(AgentIndividual ind : sortedPop) {
+        for (AgentIndividual ind : sortedPop) {
             r.append(String.format("%.6f\t%s\n", ind.rawFitness(), ind.genotype.toString()));
         }
         return r.toString();
     }
-        
-        
+
 }
