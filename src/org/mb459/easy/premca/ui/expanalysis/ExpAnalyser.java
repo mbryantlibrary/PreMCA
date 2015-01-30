@@ -33,12 +33,51 @@ public class ExpAnalyser extends javax.swing.JFrame {
     private void initComponents() {
 
         tab1 = new javax.swing.JTabbedPane();
+        jPanel2 = new javax.swing.JPanel();
+        populationLoader1 = new org.mb459.easy.premca.ui.expanalysis.PopulationLoader();
+        btnLoadPop = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         populationPane1 = new org.mb459.easy.premca.ui.expanalysis.PopulationPane();
         btnTrialView = new javax.swing.JButton();
         trialPanel1 = new org.mb459.easy.premca.ui.expanalysis.TrialPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        btnLoadPop.setText("Load");
+        btnLoadPop.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLoadPopActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(btnLoadPop)
+                .addContainerGap(750, Short.MAX_VALUE))
+            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel2Layout.createSequentialGroup()
+                    .addGap(0, 0, Short.MAX_VALUE)
+                    .addComponent(populationLoader1, javax.swing.GroupLayout.PREFERRED_SIZE, 820, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(0, 0, Short.MAX_VALUE)))
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addContainerGap(353, Short.MAX_VALUE)
+                .addComponent(btnLoadPop)
+                .addGap(226, 226, 226))
+            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel2Layout.createSequentialGroup()
+                    .addGap(0, 0, Short.MAX_VALUE)
+                    .addComponent(populationLoader1, javax.swing.GroupLayout.PREFERRED_SIZE, 604, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(0, 0, Short.MAX_VALUE)))
+        );
+
+        tab1.addTab("Load File", jPanel2);
 
         btnTrialView.setText("Trial view of selected");
         btnTrialView.addActionListener(new java.awt.event.ActionListener() {
@@ -93,6 +132,12 @@ public class ExpAnalyser extends javax.swing.JFrame {
         viewTrial(populationPane1.getSelectedInd());
     }//GEN-LAST:event_btnTrialViewActionPerformed
 
+    private void btnLoadPopActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoadPopActionPerformed
+        PopulationTableModel popTM = populationLoader1.getCurSelectedPopulation();
+        if(popTM != null)
+            populationPane1.loadPop(populationLoader1.getCurSelectedPopulation());
+    }//GEN-LAST:event_btnLoadPopActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -129,8 +174,11 @@ public class ExpAnalyser extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnLoadPop;
     private javax.swing.JButton btnTrialView;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private org.mb459.easy.premca.ui.expanalysis.PopulationLoader populationLoader1;
     private org.mb459.easy.premca.ui.expanalysis.PopulationPane populationPane1;
     private javax.swing.JTabbedPane tab1;
     private org.mb459.easy.premca.ui.expanalysis.TrialPanel trialPanel1;

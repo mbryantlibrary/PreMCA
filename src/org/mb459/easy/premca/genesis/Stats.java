@@ -6,6 +6,7 @@
 package org.mb459.easy.premca.genesis;
 
 import java.util.ArrayList;
+import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
 
 /**
  *
@@ -23,10 +24,12 @@ public class Stats {
             float total = 0;
             float raw;
             int bestIndex = 0;
-            minFit = 1E10f;
-            maxFit = -1E10f;
-            for(int i = 0; i< pop.size(); i++) {
-                raw = pop.population.get(i).rawFitness();
+            ArrayList<Float> fitnesses = pop.getFitnesses();
+            minFit = fitnesses.get(0);
+            maxFit = fitnesses.get(0);
+            int size = pop.size();
+            for(int i = 0; i< size; i++) {
+                raw = fitnesses.get(i);
                 if(raw > maxFit) {
                     maxFit = raw;
                     bestIndex = i;
@@ -35,7 +38,7 @@ public class Stats {
                 }
                 total += raw;
             }
-            avgFit = total / pop.size();
+            avgFit = total / size;
             if(avgFit < minFit)
                 avgFit = minFit;
             else if(avgFit > maxFit)
@@ -43,15 +46,16 @@ public class Stats {
 
             if(pop.size() > 1) {
                 total = 0.0f;
-                for(int i = 1; i < pop.size(); i++) {
-                    float d = pop.population.get(i).rawFitness() - avgFit;
+                for(int i = 1; i < size; i++) {
+                    float d = fitnesses.get(i) - avgFit;
                     total += d * d;
                 }
-                varFit = total / (pop.size() - 1);
+                varFit = total / (size - 1);
             } else {varFit = 0.0f;}
 
-            bestInd = pop.population.get(bestIndex);
+            bestInd = pop.getIndividual(bestIndex);
         }
+        
         
         @Override
         public String toString() {

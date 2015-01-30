@@ -19,6 +19,10 @@ public class PopulationPane extends javax.swing.JPanel {
         
         ((PopulationTableModel)tblPop.getModel()).loadFromCSV(System.getProperty("user.dir") + "\\population-1.csv");
     }
+    
+    public void loadPop(PopulationTableModel popTM) {
+        tblPop.setModel(popTM);
+    }
 
     public PopulationTableModel.DataIndividual getSelectedInd() {
         if(tblPop.getSelectedRow() == -1)

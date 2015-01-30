@@ -5,6 +5,7 @@
  */
 package org.mb459.easy.premca.sim;
 
+import com.google.common.base.Joiner;
 import org.mb459.easy.premca.genesis.AgentGenotype;
 import org.mb459.easy.premca.exp.ExpParam;
 import java.awt.Dimension;
@@ -12,12 +13,16 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
+import java.util.ArrayList;
+import java.util.logging.Logger;
+import org.mb459.easy.premca.sim.ctrnn.Neuron;
 
 /**
  * Represents and integrates the world of a single trial.
  * @author Miles
  */
 public class World {
+    private static final Logger LOG = Logger.getLogger(World.class.getName());
     
     private Agent agent; 
     private Circle circle;
@@ -34,7 +39,73 @@ public class World {
         gridSize = new Dimension((int)params.get("GRID_WIDTH"), (int)params.get("GRID_HEIGHT"));
     }
     
-       
+    private boolean loggingEnabled = false;
+
+    /**
+     * Get the value of loggingEnabled
+     *
+     * @return the value of loggingEnabled
+     */
+    public boolean isLoggingEnabled() {
+        return loggingEnabled;
+    }
+
+    /**
+     * Set the value of loggingEnabled
+     *
+     * @param loggingEnabled new value of loggingEnabled
+     */
+    public void setLoggingEnabled(boolean loggingEnabled) {
+        this.loggingEnabled = loggingEnabled;
+        if (loggingEnabled) {
+            loggingData = new ArrayList<>();
+            loggingHeaderRow = getLoggingHeaderRowTitles();
+        } else {
+            loggingData = null;
+            loggingHeaderRow = null;
+        }
+    }
+    
+    private ArrayList<Double> getNextLogRow() {
+        ArrayList<Double> row = new ArrayList<>();
+        row.add((double)circle.getCenterX());
+        row.add((double)circle.getCenterY());
+        row.add((double)agent.getCenterX());
+        row.addAll(agent.getLogRow());
+        return row;
+    }
+    
+    private ArrayList<String> getLoggingHeaderRowTitles() {
+        ArrayList<String> row = new ArrayList<>();
+        row.add("Circle X");
+        row.add("Circle Y");
+        row.add("Agent X");
+        for(Neuron neuron : agent.getLayout().getAllNeurons()) {
+            row.add("N" + neuron.ID + "_state");
+            row.add("N" + neuron.ID + "_output");
+        }
+        return row;
+    }
+
+    ArrayList<ArrayList<Double>> loggingData;
+    ArrayList<String> loggingHeaderRow;
+
+    public String getLoggingData() {
+        if (!isLoggingEnabled() | loggingData == null | loggingHeaderRow == null) {
+            LOG.warning("Logging data requested but logging wasn't enabled or logging data null. Silently ignoring");
+            return "";
+        }
+        StringBuilder strLog = new StringBuilder();
+        Joiner headerRow = Joiner.on(",");
+        strLog.append(headerRow.join(loggingHeaderRow));
+        strLog.append("\n");
+        for (ArrayList<Double> data : loggingData) {
+            Joiner joinData = Joiner.on(",");
+            strLog.append(joinData.join(data));
+            strLog.append("\n");
+        }
+        return strLog.toString();
+    }
     
     /**
      * Initialises the world with circle horizontal displacement, x velocity and agent genotype.
@@ -108,6 +179,9 @@ public class World {
         circle.move(circleDX,circleDY);
         agent.doCollisions(circle);
         agent.step();
+        if(isLoggingEnabled() & loggingData != null) {
+            loggingData.add(getNextLogRow());
+        }
     }
     
     public float getPredictionError() {

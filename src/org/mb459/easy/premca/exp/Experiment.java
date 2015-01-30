@@ -5,18 +5,14 @@
  */
 package org.mb459.easy.premca.exp;
 
-import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.mb459.easy.premca.genesis.AgentGenotype;
 import org.mb459.easy.premca.genesis.MicrobialGA;
 import org.mb459.easy.premca.genesis.Stats;
 import org.mb459.easy.premca.sim.ctrnn.CTRNNLayout;
+import org.mb459.easy.premca.util.StringToFile;
 
 /**
  *
@@ -105,18 +101,12 @@ public class Experiment extends Thread{
     
     public void infoToFile(String filename) {
         try {
-            Files.createDirectories(Paths.get(filename).getParent());
-            File infoFile = new File(filename);
-            try (FileWriter out = new FileWriter(infoFile)) {
+            StringBuilder out = new StringBuilder();
                 out.append("Experiment info\n");
                 out.append("Layout filename: " + layout.filename);
                 out.append("Params:\n");
                 out.append(param.toString());
-                
-                out.flush();
-            } catch (IOException ex) {
-            Logger.getLogger(ExperimentController.class.getName()).log(Level.SEVERE, null, ex);
-        }
+                StringToFile.save(filename, out.toString());
         } catch (IOException ex) {
             Logger.getLogger(ExperimentController.class.getName()).log(Level.SEVERE, null, ex);
         }

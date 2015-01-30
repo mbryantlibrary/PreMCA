@@ -22,6 +22,17 @@ import org.mb459.easy.premca.ui.expanalysis.PopulationTableModel;
  */
 public class AgentGenotype implements Serializable{
     
+    public CTRNNLayout layout = new CTRNNLayout();
+    boolean GENOME_CHANGED = false;
+    
+    //private int nWeights;
+    public int len;
+    public float[] genes;
+    int n;
+    private float fitness = 0.0f;
+    private String name = "";
+    private String filename = "";
+    private Random rand = new Random();
     
     public static AgentGenotype fromDataIndividual(PopulationTableModel.DataIndividual ind, CTRNNLayout layout) {
         AgentGenotype geno = new AgentGenotype(layout);
@@ -30,15 +41,6 @@ public class AgentGenotype implements Serializable{
         }
         return geno;
     }
-
-    public CTRNNLayout layout = new CTRNNLayout();
-    boolean GENOME_CHANGED = false;
-    
-    //private int nWeights;
-    public int len;
-    public float[] genes;
-    int n;
-    
 
     public AgentGenotype(CTRNNLayout layout) {
         this.layout = layout;
@@ -59,9 +61,6 @@ public class AgentGenotype implements Serializable{
     }
     
     
-    private float fitness = 0.0f;
-    private String name = "";
-    private String filename = "";
     
     public AgentGenotype(String filename) throws IOException, ClassNotFoundException {
         FileInputStream fs = new FileInputStream(filename);
@@ -72,11 +71,8 @@ public class AgentGenotype implements Serializable{
         this.filename = filename;
     }
     
-    public AgentGenotype(AgentGenotype g) {
-        copyFrom(g);
-    }
     
-    public final void copyFrom(AgentGenotype g) {
+    private final void copyFrom(AgentGenotype g) {
         genes = g.genes;
         setFitness(g.getFitness());
         setName(g.getName());
@@ -84,14 +80,12 @@ public class AgentGenotype implements Serializable{
     
     
     private float rand() {
-        Random rand = new Random();
         return (float)rand.nextDouble() * 2 - 1;
     }
     
     
     
     private float randCreep(float mutVariance) {
-        Random rand = new Random();
         return (float)rand.nextGaussian() * mutVariance;
     }
     
