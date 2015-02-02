@@ -6,6 +6,7 @@ import org.mb459.easy.premca.sim.ctrnn.GMCTRNN;
 import java.awt.Graphics2D;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.logging.Logger;
 import org.mb459.easy.premca.sim.ctrnn.CTRNN;
 import org.mb459.easy.premca.sim.ctrnn.CTRNNLayout;
@@ -30,11 +31,11 @@ public class Agent extends Circle {
         return layout;
     }
     
-    public ArrayList<Double> getLogRow() {
-        ArrayList<Double> row = new ArrayList<>();
+    public ArrayList<Float> getLogRow() {
+        ArrayList<Float> row = new ArrayList<>();
         for(int i = 0; i < getLayout().getTotalN(); i++) {
-            row.add((double)nn.states[i]);
-            row.add((double)nn.outputs[i]);
+            row.add(nn.states[i]);
+            row.add(nn.outputs[i]);
         }
         return row;
     }
@@ -151,6 +152,15 @@ public class Agent extends Circle {
 
     float getPredictionError() {
         return (float) ((GMCTRNN) nn).getPredictionError();
+    }
+
+    Collection<? extends String> getTimestepDataTitles() {
+       ArrayList<String> titles = new ArrayList<>();
+        for(int i = 0; i < nn.outputs.length; i++) {
+            titles.add("states_nn" + i);
+            titles.add("output_nn" + i);
+        }
+        return titles;
     }
 
 }

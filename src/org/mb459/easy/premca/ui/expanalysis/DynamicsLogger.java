@@ -13,8 +13,7 @@ import org.mb459.easy.premca.util.StringToFile;
  * @author Miles Bryant (mb459@sussex.ac.uk)
  */
 public class DynamicsLogger {
-    public static void doLog(String filename,AgentGenotype g) {
-        ExpParam param = new ExpParam();
+    public static void doLog(String filename,AgentGenotype g, ExpParam param) {
         World world = new World(
                 0,
                 0,

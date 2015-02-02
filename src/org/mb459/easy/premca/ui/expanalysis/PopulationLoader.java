@@ -6,6 +6,10 @@
 package org.mb459.easy.premca.ui.expanalysis;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import org.mb459.easy.premca.sim.ctrnn.CTRNNLayout;
 
 /**
  *
@@ -21,13 +25,20 @@ public class PopulationLoader extends javax.swing.JPanel {
     }
     
     public PopulationTableModel getCurSelectedPopulation() {
-        File selected = jFileChooser1.getSelectedFile();
-        if(selected == null)
-            return null;
-        PopulationTableModel pop = new PopulationTableModel();
-        pop.loadFromCSV(selected.getAbsolutePath());
-        return pop;
+        try {
+            File selected = jFileChooser1.getSelectedFile();
+            if(selected == null)
+                return null;
+            PopulationTableModel pop = new PopulationTableModel(CTRNNLayout.fromJSONFile(selected.getParent() + "\\layout.nnl"));
+            pop.loadFromCSV(selected.getAbsolutePath());
+            return pop;
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(PopulationLoader.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
     }
+    
+    
 
     /**
      * This method is called from within the constructor to initialize the form.

@@ -87,38 +87,11 @@ public class World {
         gridSize = new Dimension((int)params.get("GRID_WIDTH"), (int)params.get("GRID_HEIGHT"));
     }
     
-    private boolean loggingEnabled = false;
-
-    /**
-     * Get the value of loggingEnabled
-     *
-     * @return the value of loggingEnabled
-     */
-    public boolean isLoggingEnabled() {
-        return loggingEnabled;
-    }
-
-    /**
-     * Set the value of loggingEnabled
-     *
-     * @param loggingEnabled new value of loggingEnabled
-     */
-    public void setLoggingEnabled(boolean loggingEnabled) {
-        this.loggingEnabled = loggingEnabled;
-        if (loggingEnabled) {
-            loggingData = new ArrayList<>();
-            loggingHeaderRow = getLoggingHeaderRowTitles();
-        } else {
-            loggingData = null;
-            loggingHeaderRow = null;
-        }
-    }
-    
-    private ArrayList<Double> getNextLogRow() {
-        ArrayList<Double> row = new ArrayList<>();
-        row.add((double)circle.getCenterX());
-        row.add((double)circle.getCenterY());
-        row.add((double)agent.getCenterX());
+    private ArrayList<Float> getNextLogRow() {
+        ArrayList<Float> row = new ArrayList<>();
+        row.add(circle.getCenterX());
+        row.add(circle.getCenterY());
+        row.add(agent.getCenterX());
         row.addAll(agent.getLogRow());
         return row;
     }
@@ -135,26 +108,8 @@ public class World {
         return row;
     }
 
-    ArrayList<ArrayList<Double>> loggingData;
     ArrayList<String> loggingHeaderRow;
 
-    public String getLoggingData() {
-        if (!isLoggingEnabled() | loggingData == null | loggingHeaderRow == null) {
-            LOG.warning("Logging data requested but logging wasn't enabled or logging data null. Silently ignoring");
-            return "";
-        }
-        StringBuilder strLog = new StringBuilder();
-        Joiner headerRow = Joiner.on(",");
-        strLog.append(headerRow.join(loggingHeaderRow));
-        strLog.append("\n");
-        for (ArrayList<Double> data : loggingData) {
-            Joiner joinData = Joiner.on(",");
-            strLog.append(joinData.join(data));
-            strLog.append("\n");
-        }
-        return strLog.toString();
-    }
-    
     /**
      * Initialises the world with circle horizontal displacement, x velocity and agent genotype.
      * @param circleDisp

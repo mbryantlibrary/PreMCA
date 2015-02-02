@@ -27,7 +27,7 @@ public class TrialPanel extends javax.swing.JPanel {
     }
     
     private void doLogRuns() {
-        DynamicsLogger.doLog(System.getProperty("user.dir") + "\\logTest.csv", trialViewer1.getCurGenotype());
+        DynamicsLogger.doLog("",null,null);
     }
     
     /**

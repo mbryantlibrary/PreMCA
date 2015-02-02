@@ -16,8 +16,6 @@ public class PopulationPane extends javax.swing.JPanel {
      */
     public PopulationPane() {
         initComponents();
-        
-        ((PopulationTableModel)tblPop.getModel()).loadFromCSV(System.getProperty("user.dir") + "\\population-1.csv");
     }
     
     public void loadPop(PopulationTableModel popTM) {
@@ -43,7 +41,14 @@ public class PopulationPane extends javax.swing.JPanel {
         tblPop = new javax.swing.JTable();
 
         tblPop.setAutoCreateRowSorter(true);
-        tblPop.setModel(new PopulationTableModel());
+        tblPop.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+
+            }
+        ));
         tblPop.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
         tblPop.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jScrollPane1.setViewportView(tblPop);

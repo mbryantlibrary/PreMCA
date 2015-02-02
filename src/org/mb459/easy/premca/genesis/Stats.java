@@ -6,7 +6,6 @@
 package org.mb459.easy.premca.genesis;
 
 import java.util.ArrayList;
-import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
 
 /**
  *
