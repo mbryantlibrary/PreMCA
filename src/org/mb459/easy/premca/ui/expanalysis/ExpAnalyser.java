@@ -35,10 +35,38 @@ public class ExpAnalyser extends javax.swing.JFrame {
     private void initComponents() {
 
         tab1 = new javax.swing.JTabbedPane();
+        jPanel2 = new javax.swing.JPanel();
+        btnLoadPop = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         btnTrialView = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        btnLoadPop.setText("Load");
+        btnLoadPop.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLoadPopActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(btnLoadPop)
+                .addContainerGap(750, Short.MAX_VALUE))
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addContainerGap(353, Short.MAX_VALUE)
+                .addComponent(btnLoadPop)
+                .addGap(226, 226, 226))
+        );
+
+        tab1.addTab("Load File", jPanel2);
 
         btnTrialView.setText("Trial view of selected");
         btnTrialView.addActionListener(new java.awt.event.ActionListener() {
@@ -128,6 +156,7 @@ public class ExpAnalyser extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnTrialView;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JTabbedPane tab1;
     // End of variables declaration//GEN-END:variables
 }
