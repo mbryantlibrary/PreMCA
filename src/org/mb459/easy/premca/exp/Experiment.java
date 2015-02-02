@@ -5,12 +5,7 @@
  */
 package org.mb459.easy.premca.exp;
 
-import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.mb459.easy.premca.genesis.AgentGenotype;

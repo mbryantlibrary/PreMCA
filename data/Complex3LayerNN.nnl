@@ -55,6 +55,7 @@
                 {
                     "id": 2,
                     "paramID": 0,
+                    "predPair" : 0,
                     "tau": "g8",
                     "bias": "g9",
                     "gain": "g10",
@@ -64,6 +65,7 @@
                 {
                     "id": 3,
                     "paramID": 0,
+                    "predPair" : 1,
                     "tau": "g8",
                     "bias": "g9",
                     "gain": "g10",
@@ -73,6 +75,7 @@
                 {
                     "id": 4,
                     "paramID": 0,
+                    "predPair" : 2,
                     "tau": "g8",
                     "bias": "g9",
                     "gain": "g10",
@@ -82,6 +85,7 @@
                 {
                     "id": 5,
                     "paramID": 0,
+                    "predPair" : 3,
                     "tau": "g8",
                     "bias": "g9",
                     "gain": "g10",
@@ -91,6 +95,7 @@
                 {
                     "id": 6,
                     "paramID": 0,
+                    "predPair" : 4,
                     "tau": "g8",
                     "bias": "g9",
                     "gain": "g10",
@@ -105,6 +110,7 @@
                 {
                     "id": 7,
                     "paramID": 1,
+                    "predPair" : 0,
                     "tau": "g11",
                     "bias": "g12",
                     "gain": "g13",
@@ -114,6 +120,7 @@
                 {
                     "id": 8,
                     "paramID": 1,
+                    "predPair" : 1,
                     "tau": "g11",
                     "bias": "g12",
                     "gain": "g13",
@@ -123,6 +130,7 @@
                 {
                     "id": 9,
                     "paramID": 1,
+                    "predPair" : 2,
                     "tau": "g11",
                     "bias": "g12",
                     "gain": "g13",
@@ -132,6 +140,7 @@
                 {
                     "id": 10,
                     "paramID": 1,
+                    "predPair" : 3,
                     "tau": "g11",
                     "bias": "g12",
                     "gain": "g13",
@@ -141,6 +150,7 @@
                 {
                     "id": 11,
                     "paramID": 1,
+                    "predPair" : 4,
                     "tau": "g11",
                     "bias": "g12",
                     "gain": "g13",
@@ -150,7 +160,6 @@
             ]
         }
     ],
-    "genomeLength" : 14,
     "sensorInputs" : [7,8,9,10,11],
     "motorOutputs": [0,1]    
 }

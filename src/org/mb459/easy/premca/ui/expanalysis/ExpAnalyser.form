@@ -62,6 +62,13 @@
                       <Component id="btnLoadPop" min="-2" max="-2" attributes="0"/>
                       <EmptySpace pref="750" max="32767" attributes="0"/>
                   </Group>
+                  <Group type="103" rootIndex="1" groupAlignment="0" attributes="0">
+                      <Group type="102" attributes="0">
+                          <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                          <Component id="populationLoader1" min="-2" pref="820" max="-2" attributes="0"/>
+                          <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                      </Group>
+                  </Group>
               </Group>
             </DimensionLayout>
             <DimensionLayout dim="1">
@@ -71,10 +78,19 @@
                       <Component id="btnLoadPop" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="226" max="-2" attributes="0"/>
                   </Group>
+                  <Group type="103" rootIndex="1" groupAlignment="0" attributes="0">
+                      <Group type="102" attributes="0">
+                          <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                          <Component id="populationLoader1" min="-2" pref="604" max="-2" attributes="0"/>
+                          <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                      </Group>
+                  </Group>
               </Group>
             </DimensionLayout>
           </Layout>
           <SubComponents>
+            <Component class="org.mb459.easy.premca.ui.expanalysis.PopulationLoader" name="populationLoader1">
+            </Component>
             <Component class="javax.swing.JButton" name="btnLoadPop">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Load"/>
@@ -102,6 +118,7 @@
                       <Component id="btnTrialView" min="-2" max="-2" attributes="0"/>
                       <EmptySpace pref="670" max="32767" attributes="0"/>
                   </Group>
+                  <Component id="populationPane1" alignment="0" max="32767" attributes="0"/>
               </Group>
             </DimensionLayout>
             <DimensionLayout dim="1">
@@ -109,12 +126,15 @@
                   <Group type="102" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="btnTrialView" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace pref="568" max="32767" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="populationPane1" pref="563" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
           </Layout>
           <SubComponents>
+            <Component class="org.mb459.easy.premca.ui.expanalysis.PopulationPane" name="populationPane1">
+            </Component>
             <Component class="javax.swing.JButton" name="btnTrialView">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Trial view of selected"/>
@@ -125,6 +145,15 @@
             </Component>
           </SubComponents>
         </Container>
+        <Component class="org.mb459.easy.premca.ui.expanalysis.TrialPanel" name="trialPanel1">
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
+              <JTabbedPaneConstraints tabName="Trial view">
+                <Property name="tabTitle" type="java.lang.String" value="Trial view"/>
+              </JTabbedPaneConstraints>
+            </Constraint>
+          </Constraints>
+        </Component>
       </SubComponents>
     </Container>
   </SubComponents>

@@ -64,6 +64,10 @@ public class Population {
     public int getRandIndex() {
         return rand.nextInt(size());
     }
+    
+    public AgentIndividual getIndividual(int index) {
+        return population.get(index);
+    }
 
     public int size() {
         return population.size();
