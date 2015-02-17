@@ -20,6 +20,13 @@ public class PopulationLoader extends javax.swing.JPanel {
         initComponents();
     }
     
+    public String getSelectedDir() {
+        if(jFileChooser1.getSelectedFile() == null)
+            return "";
+        else
+            return jFileChooser1.getSelectedFile().getParent();
+    }
+    
     public PopulationTableModel getCurSelectedPopulation() {
         File selected = jFileChooser1.getSelectedFile();
         if(selected == null)

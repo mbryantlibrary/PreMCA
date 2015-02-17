@@ -1,0 +1,177 @@
+{
+    "metadata" :
+        {
+            "author": "Miles Bryant",
+            "date": "22.01.2015",
+            "title": "3 Layer FeedForward Predictive NN",
+            "desc": "A predictive net "
+        }
+    ,
+    "param_ranges" : [
+        {
+            "id": 0,
+            "desc": "circuit ranges",
+            "tauR": [1, 2],
+            "gainR": [1, 1],
+            "biasR": [-5, 5],
+            "weightsR": [-5,5]
+        },
+        {
+            "id": 1,
+            "desc": "sensory neuron ranges",
+            "tauR": [1, 1],
+            "gainR": [1, 1],
+            "biasR": [-1, 1],
+            "weightsR": [-5,5]
+        },
+        {
+            "id": 2,
+            "desc": "predictive neuron ranges",
+            "tauR": [1, 2],
+            "gainR": [1, 1],
+            "biasR": [-5, 5],
+            "weightsR": [-2,2]      
+        }
+    ],
+    "layers" : [
+        {
+            "id": 0,
+            "title": "motor",
+            "neurons": [
+                {
+                    "id": 0,
+                    "paramID": 0,
+                    "tau": "g0",
+                    "bias": "g1",
+                    "gain": "g2",
+                    "conns": [2,3,4,5,6],
+                    "weights": ["g3","g4","g5","g6","g7"]
+                },
+                {
+                    "id": 1,
+                    "paramID": 0,
+                    "tau": "g0",
+                    "bias": "g1",
+                    "gain": "g2",
+                    "conns": [2,3,4,5,6],
+                    "weights": ["g7","g6","g5","g4","g3"]
+                }
+            ]
+        },
+        {
+            "id": 1,
+            "title": "predictive",
+            "neurons" : [
+                {
+                    "id": 2,
+                    "paramID": 2,
+                    "predPair" : 0,
+                    "tau": "g8",
+                    "bias": "g9",
+                    "gain": "g10",
+                    "conns": [2,3,4,5,6],
+                    "weights": ["g14","g17","g21","g24","g26"]
+                },
+                {
+                    "id": 3,
+                    "paramID": 2,
+                    "predPair" : 1,
+                    "tau": "g8",
+                    "bias": "g9",
+                    "gain": "g10",
+                    "conns": [2,3,4,5,6],
+                    "weights": ["g18","g15","g19","g23","g25"]
+                },
+                {
+                    "id": 4,
+                    "paramID": 2,
+                    "predPair" : 2,
+                    "tau": "g8",
+                    "bias": "g9",
+                    "gain": "g10",
+                    "conns": [2,3,4,5,6],
+                    "weights": ["g22","g20","g16","g20","g22"]
+                },
+                {
+                    "id": 5,
+                    "paramID": 2,
+                    "predPair" : 3,
+                    "tau": "g8",
+                    "bias": "g9",
+                    "gain": "g10",
+                    "conns": [2,3,4,5,6],
+                    "weights": ["g25","g23","g19","g15","g18"]
+                },
+                {
+                    "id": 6,
+                    "paramID": 2,
+                    "predPair" : 4,
+                    "tau": "g8",
+                    "bias": "g9",
+                    "gain": "g10",
+                    "conns": [2,3,4,5,6],
+                    "weights": ["g26","g24","g21","g17","g14"]
+                }
+            ]
+        },
+        {
+            "id": 2,
+            "title": "sensory",
+            "neurons" : [
+                {
+                    "id": 7,
+                    "paramID": 1,
+                    "predPair" : 0,
+                    "tau": "g11",
+                    "bias": "g12",
+                    "gain": "g13",
+                    "conns": [],
+                    "weights": []
+                },
+                {
+                    "id": 8,
+                    "paramID": 1,
+                    "predPair" : 1,
+                    "tau": "g11",
+                    "bias": "g12",
+                    "gain": "g13",
+                    "conns": [],
+                    "weights": []
+                },
+                {
+                    "id": 9,
+                    "paramID": 1,
+                    "predPair" : 2,
+                    "tau": "g11",
+                    "bias": "g12",
+                    "gain": "g13",
+                    "conns": [],
+                    "weights": []
+                },
+                {
+                    "id": 10,
+                    "paramID": 1,
+                    "predPair" : 3,
+                    "tau": "g11",
+                    "bias": "g12",
+                    "gain": "g13",
+                    "conns": [],
+                    "weights": []
+                },
+                {
+                    "id": 11,
+                    "paramID": 1,
+                    "predPair" : 4,
+                    "tau": "g11",
+                    "bias": "g12",
+                    "gain": "g13",
+                    "conns": [],
+                    "weights": []
+                }
+            ]
+        }
+    ],
+    "sensorInputs" : [7,8,9,10,11],
+    "motorOutputs": [0,1]    
+    
+}

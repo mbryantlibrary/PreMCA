@@ -5,12 +5,23 @@
  */
 package org.mb459.easy.premca.ui.expanalysis;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import org.mb459.easy.premca.exp.ExpParam;
+import org.mb459.easy.premca.sim.ctrnn.CTRNNLayout;
+
 /**
  *
  * @author Miles
  */
 public class ExpAnalyser extends javax.swing.JFrame {
+    private static final Logger LOG = Logger.getLogger(ExpAnalyser.class.getName());
 
+    
+    
     /**
      * Creates new form ExpAnalyser
      */
@@ -18,8 +29,25 @@ public class ExpAnalyser extends javax.swing.JFrame {
         initComponents();
     }
     
-    private void viewTrial(PopulationTableModel.DataIndividual ind) {
-        trialPanel1.loadIndividual(ind);
+    private void viewTrial(PopulationTableModel.DataIndividual ind) throws FileNotFoundException {
+        String curDir = populationLoader1.getSelectedDir();
+        File layoutFile = new File(curDir + "\\layout.nnl");
+        if(layoutFile == null) {
+            LOG.severe("No layout file found in dir " + curDir + ";");
+            throw new IllegalStateException("No layout file found in directory");
+        }
+        
+        ExpParam param = new ExpParam();
+        File paramFile = new File(curDir + "\\params.param");
+        if(!paramFile.exists()) {
+            LOG.warning("No params file found in dir " + curDir + "; loading default");
+            param = new ExpParam();
+        } else {
+                param = new ExpParam(new FileInputStream(paramFile));
+        }
+        
+        CTRNNLayout layout = CTRNNLayout.fromJSONFile(layoutFile.getAbsolutePath());
+        trialPanel1.loadIndividual(ind,param,layout);
         tab1.setSelectedComponent(trialPanel1);
     }
 
@@ -129,7 +157,11 @@ public class ExpAnalyser extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnTrialViewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTrialViewActionPerformed
-        viewTrial(populationPane1.getSelectedInd());
+        try {
+            viewTrial(populationPane1.getSelectedInd());
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(ExpAnalyser.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_btnTrialViewActionPerformed
 
     private void btnLoadPopActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoadPopActionPerformed

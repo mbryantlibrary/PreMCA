@@ -55,7 +55,14 @@ public class Agent extends Circle {
         sensorBase.x = location.x; //place in middle
         sensorBase.y = location.y - radius;
         nSensors = g.getNSensors();
-        createSensors(nSensors, (int) params.get("AGENT_SENSOR_LENGTH"), (float) params.get("AGENT_EYE_WIDTH_RAD"));
+        float eye_width;
+        try {
+            eye_width = (float)(double)params.get("AGENT_EYE_WIDTH_RAD");
+        } catch(Exception e) {
+            eye_width = (float)params.get("AGENT_EYE_WIDTH_RAD");
+        }
+        
+        createSensors(nSensors, (int) params.get("AGENT_SENSOR_LENGTH"),eye_width );
         nn = new GMCTRNN(g, params);
         layout = g.layout;
     }
@@ -64,10 +71,10 @@ public class Agent extends Circle {
      * creates the sensors on the agent according to ExpParam
      */
     private void createSensors(int n, int sensorLength, float eye_width) {
-        float left = 0.5f + 0.5f * eye_width;
+        float left = (0.5f + 0.5f * eye_width);
         for (float i = 0; i < n; i++) //loop through sensors
         {
-            sensors.add(new Sensor(sensorBase, left - (i / ((n - 1.0f) * (1.0f / eye_width))), sensorLength));
+            sensors.add(new Sensor(sensorBase, (float) (left - (i / ((n - 1.0f) * (1.0f / eye_width)))), sensorLength));
         }
     }
 

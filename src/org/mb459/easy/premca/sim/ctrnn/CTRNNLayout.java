@@ -5,6 +5,7 @@
  */
 package org.mb459.easy.premca.sim.ctrnn;
 
+import java.io.File;
 import org.mb459.easy.premca.util.Range;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;

@@ -283,11 +283,7 @@ public class ExpParamEditor extends javax.swing.JPanel implements TableModelList
             FileInputStream fs;
             try {
                 fs = new FileInputStream(fc.getSelectedFile());
-                JSONObject jobj = new JSONObject(new JSONTokener(fs));
-                ExpParam param = ((ExpParamTableModel)tblParams.getModel()).params;
-                for(String key : jobj.keySet()) {
-                    param.put(key, jobj.get(key));
-                }
+                tblParams.setModel(new ExpParamTableModel(new ExpParam(fs)));
             } catch(IOException e) {
                 System.out.println("Error loading params: "); e.printStackTrace();
             }
@@ -301,16 +297,7 @@ public class ExpParamEditor extends javax.swing.JPanel implements TableModelList
                 FileWriter w = null;
                 try {
                     w = new FileWriter(fc.getSelectedFile());
-                    JSONWriter jwr = new JSONWriter(w);
-                    ExpParamTableModel tm = (ExpParamTableModel)tblParams.getModel();
-                    jwr.object();
-                    for(int i = 0; i < tm.getRowCount(); i++) {
-                        if(!((String)tm.getValueAt(i, 0)).equals("")) {
-                            jwr.key((String)tm.getValueAt(i, 0));
-                            jwr.value((Number)tm.getValueAt(i, 1));
-                        }
-                    }
-                    jwr.endObject();
+                    ((ExpParamTableModel)tblParams.getModel()).params.saveToFile(w);
                     w.flush();
                     System.out.println(w.toString());
                 } catch(IOException e) {

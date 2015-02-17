@@ -1,0 +1,85 @@
+{
+    "metadata" :
+        {
+            "author": "Miles Bryant",
+            "date": "24.11.2014",
+            "title": "3 Layer Predictive NN",
+            "desc": "A predictive net"
+        }
+    ,
+    "param_ranges" : [
+        {
+            "id": 0,
+            "desc": "circuit ranges",
+            "tauR": [1, 2],
+            "gainR": [1, 1],
+            "biasR": [-5, 5],
+            "weightsR": [-5,5]
+        },
+        {
+            "id": 1,
+            "desc": "sensory neuron ranges",
+            "tauR": [1, 1],
+            "gainR": [1, 1],
+            "biasR": [-1, 1],
+            "weightsR": [-5,5]
+        }
+    ],
+    "layers" : [
+        {
+            "id": 0,
+            "neurons": [
+                {
+                    "id": 0,
+                    "paramID": 0,
+                    "tau": "g0",
+                    "bias": "g1",
+                    "gain": "g2",
+                    "conns": [2],
+                    "weights": ["g3"]
+                },
+                {
+                    "id": 1,
+                    "paramID": 0,
+                    "tau": "g0",
+                    "bias": "g1",
+                    "gain": "g2",
+                    "conns": [2],
+                    "weights": ["g4"]
+                }
+            ]
+        },
+        {
+            "id": 1,
+            "neurons" : [
+                {
+                    "id": 2,
+                    "paramID": 0,
+                    "predPair" : 0,
+                    "tau": "g5",
+                    "bias": "g6",
+                    "gain": "g7",
+                    "conns": [],
+                    "weights": []
+                }
+            ]
+        },
+        {
+            "id": 2,
+            "neurons" : [
+                {
+                    "id": 3,
+                    "paramID": 1,
+                    "predPair" : 0,
+                    "tau": "1",
+                    "bias": "0",
+                    "gain": "1",
+                    "conns": [],
+                    "weights": []
+                }
+            ]
+        }
+    ],
+    "sensorInputs" : [7],
+    "motorOutputs": [0,1]    
+}

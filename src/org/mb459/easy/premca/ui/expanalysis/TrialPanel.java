@@ -18,12 +18,8 @@ import org.mb459.easy.premca.sim.ctrnn.CTRNNLayout;
  */
 public class TrialPanel extends javax.swing.JPanel {
 
-    public void loadIndividual(PopulationTableModel.DataIndividual ind)  {
-        try {
-            trialViewer1.load(AgentGenotype.fromDataIndividual(ind, CTRNNLayout.fromJSONFile(System.getProperty("user.dir")+"\\data\\CompDynamicsGMNN.nnl")), new ExpParam());
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(TrialPanel.class.getName()).log(Level.SEVERE, null, ex);
-        }
+    public void loadIndividual(PopulationTableModel.DataIndividual ind, ExpParam params, CTRNNLayout layout)  {
+        trialViewer1.load(AgentGenotype.fromDataIndividual(ind, layout), params);
     }
     
     private void doLogRuns() {

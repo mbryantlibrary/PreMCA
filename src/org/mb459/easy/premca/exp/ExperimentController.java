@@ -19,6 +19,7 @@ import java.util.logging.FileHandler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
+import org.apache.commons.io.FileUtils;
 import org.mb459.easy.premca.genesis.Stats;
 import org.mb459.easy.premca.sim.ctrnn.CTRNNLayout;
 import org.mb459.easy.premca.ui.exprun.TextOutput;
@@ -28,8 +29,9 @@ import org.mb459.easy.premca.ui.exprun.TextOutput;
  * @author Miles
  */
 public class ExperimentController {
+
     private static final Logger LOG = Logger.getLogger(ExperimentController.class.getName());
-    
+
     private ExpParam params = new ExpParam();
     private CTRNNLayout layout = new CTRNNLayout();
     private ArrayList<Experiment> experiments = new ArrayList<>();
@@ -56,87 +58,101 @@ public class ExperimentController {
 
     public ExperimentController() {
         try {
-            FileHandler handler = new FileHandler("prog.%u.%g.txt",1024*1024,3,true);
+            FileHandler handler = new FileHandler("prog.%u.%g.txt", 1024 * 1024, 3, true);
             handler.setFormatter(new SimpleFormatter());
             LOG.addHandler(handler);
             LOG.setLevel(Level.ALL);
-        } catch(Exception e) {
-            LOG.throwing("ExperimentController", "Constructor",e);
+        } catch (Exception e) {
+            LOG.throwing("ExperimentController", "Constructor", e);
             System.exit(1);
-        } 
+        }
     }
-    
+
     public final void initialise() {
         addLineOut("Initialising experiment...");
     }
-    
+
     private final ArrayList<TextOutput> outputs = new ArrayList<>();
-    
+
     private final SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+
     public void addTextOutput(TextOutput output) {
         outputs.add(output);
     }
-    
+
     public void addLineOut(String newLine) {
         newLine = (sdf.format(new Date())) + "\t" + newLine + "\n";
-        for(TextOutput out : outputs) {
+        for (TextOutput out : outputs) {
             out.addLine(newLine);
             out.updateProgress(getProgress());
         }
     }
-    
+
     private int genCount = 0;
     private int totalGen = 0;
-    
+
     public int getProgress() {
-        return Math.round((1000*(float)genCount)/((float)totalGen));
+        return Math.round((1000 * (float) genCount) / ((float) totalGen));
     }
-    
+
     private void countGen(int n) {
         genCount += n;
     }
-    
+
     private Executor exe;
     public boolean isRunning = false;
-    
+
     public void run(int nRuns, int nThreads) {
-        if(isRunning) {
+        if (isRunning) {
             restart();
             return;
         }
         isRunning = true;
         exe = Executors.newFixedThreadPool(nThreads);
-        
+        saveParamAndLayout();
+
         addLineOut("Thread\tGen\tMax\tAvg\tMin\tVar");
-        
-        totalGen = (int)params.get("GA_MAXGEN") * nThreads;
-        
-        for(int i = 0; i < nRuns; i++) {
+
+        totalGen = (int) params.get("GA_MAXGEN") * nThreads;
+
+        for (int i = 0; i < nRuns; i++) {
             final Experiment exp = new Experiment();
             exp.start(params, layout);
             final int curID = i + 1;
             exp.setListener(new GAListener() {
-                    @Override
-                    public void GAupdateSummary(Stats stats) {
-                        addLineOut(String.format("%3d\t%3d\t%4.3f\t%4.3f\t%4.3f\t%4.3f", curID,stats.n,stats.maxFit,stats.avgFit,stats.minFit,stats.varFit));
-                        countGen((int)params.get("UPDATE_SUMMARY_FREQ"));
-                    }
-
-                    @Override
-                    public void GAFinished() {
-                        addLineOut(String.format("Run %d finished",curID));
-                        exp.GA.popStats.saveToCSV(getStatsFileName(curID));
-                        exp.GA.pop.saveToCSV(getPopFileName(curID));
-                    }
+                @Override
+                public void GAupdateSummary(Stats stats) {
+                    addLineOut(String.format("%3d\t%3d\t%4.3f\t%4.3f\t%4.3f\t%4.3f", curID, stats.n, stats.maxFit, stats.avgFit, stats.minFit, stats.varFit));
+                    countGen((int) params.get("UPDATE_SUMMARY_FREQ"));
                 }
+
+                @Override
+                public void GAFinished() {
+                    addLineOut(String.format("Run %d finished", curID));
+                    exp.GA.popStats.saveToCSV(getStatsFileName(curID));
+                    exp.GA.pop.saveToCSV(getPopFileName(curID));
+                }
+            }
             );
             experiments.add(exp);
             exe.execute(exp);
-            addLineOut(String.format("Run %d started",curID));
+            addLineOut(String.format("Run %d started", curID));
         }
-        
+
     }
-    
+
+    private void saveParamAndLayout() {
+        try {
+            Files.createDirectories(workingDir);
+            params.saveToFile(new FileWriter(workingDir.toString() + "\\params.param"));
+            if(!layout.filename.isEmpty()) {
+                FileUtils.copyFile(new File(layout.filename), new File(workingDir.toString() + "\\layout.nnl"));
+            }
+        } catch (IOException ex) {
+            Logger.getLogger(ExperimentController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
     private String getStatsFileName(int run) {
         try {
             Files.createDirectories(workingDir);
@@ -145,7 +161,7 @@ public class ExperimentController {
         }
         return (workingDir.toString() + "\\stats-" + run + ".csv");
     }
-    
+
     private String getPopFileName(int run) {
         try {
             Files.createDirectories(workingDir);
@@ -154,19 +170,18 @@ public class ExperimentController {
         }
         return (workingDir.toString() + "\\population-" + run + ".csv");
     }
-    
+
     public void restart() {
-        for(Experiment e : experiments) {
+        for (Experiment e : experiments) {
             e.setPaused(false);
         }
     }
-    
+
     public void stop() {
-        for(Experiment e : experiments) {
+        for (Experiment e : experiments) {
             e.setPaused(true);
         }
     }
-    
 
     /**
      * @return the params
@@ -195,5 +210,5 @@ public class ExperimentController {
     public void setLayout(CTRNNLayout layout) {
         this.layout = layout;
     }
-    
+
 }
